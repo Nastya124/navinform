@@ -2,7 +2,7 @@ function X = route_points(dXb)
 global Mdx 
 %выделяем контура на полученных картах
 [Bx,Lx,Nx,Ax] = bwboundaries(dXb,'noholes');
-figure, imagesc(flip(dXb,1)); hold on;
+
 
 %делаем структуру для точек
 AxPoints = zeros(2,2,length(Bx));
@@ -15,7 +15,7 @@ for k=1:length(Bx)
     catch err
        continue;
     end
-    plotellipse(z, a, b, alpha);
+    %plotellipse(z, a, b, alpha);
     
     %рисуем точку центра эллипса
     %plot(z(2)*Mdx/1000,z(1)*Mdx/1000, 'r.');
