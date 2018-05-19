@@ -9,7 +9,7 @@
 
 clear
 %M = peaks(200);
-load 'fields/Field 3.mat';
+load 'fields/Field 8.mat';
 %M=M.*10;
 global Mdx Mdy
 Mdx = 200; %шаг сетки (м)
