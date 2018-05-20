@@ -7,14 +7,16 @@
 % 6) -> считаю точность оценивания для точек маршрута
 % 7) рассчитать наибольшую P.
 
-clear; close all;
-%M = peaks(200);
-load 'fields/Field 5.mat';
+
+
+ close all
+load 'fields/Field 3.mat';
+
 %M=M.*10;
 global Mdx Mdy
 Mdx = 200; %шаг сетки (м)
 Mdy = 200; %шаг сетки (м)
-[X,Y] = meshgrid(1:Mdx/1000:31, 1:Mdy/1000:31);
+[X,Y] = meshgrid(0:Mdx/1000:30, 0:Mdy/1000:30);
 M = interp2(M,X,Y,'spline');
 
 %задаем параметры шума датчика и оцениваемого вектора
@@ -23,7 +25,7 @@ P_x = [1000000 0; 0 1000000];
 
 %получаем матрицы производных по направлениям и бинаризованные карты для
 %каждой из координат
-[dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b] = map(M);
+[dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b,alpha,beta] = map(M);
 %**************************************************
 %!!!!!!Это ТОЛЬКО направления X и Y!!!!!!!!!!!!!!!!
 %получаем точки маршрута
@@ -74,7 +76,9 @@ P_x = [1000000 0; 0 1000000];
  P_unc_xy = unconditional_cov_matrix(route_points_xy, dX, dY, P_x, r);
  P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
  
- plot_everything
+
+ %plot_everything
+
  
  %  subplot(2,1,1)
 %  hold on

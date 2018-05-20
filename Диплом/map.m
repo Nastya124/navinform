@@ -1,4 +1,4 @@
- function [dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b] = map(M)
+ function [dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b,alpha,beta] = map(M)
 global Mdx Mdy
 %Здесь dX,dY - матрицы производных, dXb,dYb - матрицы нацденных областей с
 %высоким градиентом для двух координат соответственно
@@ -24,16 +24,17 @@ yL = graythresh(dYb);
 % dXb = double(im2bw(dXb,xL));
 % dYb = double(im2bw(dYb,yL));
 
+
 dXb = double(im2bw(dXb,0.95));
 dYb = double(im2bw(dYb,0.95));
+
 %   figure()
 %   imagesc(flip(dYb ,1));
 
 %делаем все то же самое для направлений alpha и beta
-% alpha = 124*pi/180;
-% beta = 152*pi/180;
+
 [alpha, beta] = get_directions2(dX,dY);
-% beta = mod(alpha+pi/2,pi);
+
 fprintf('Направления: альфа %.2f, бета %.2f, дельта %.2f \n',alpha*180/pi, beta*180/pi, abs(alpha-beta)*180/pi);
 dAlpha = dX*cos(alpha)+dY*sin(alpha);
 dBeta = dX*cos(beta)+dY*sin(beta);
@@ -53,8 +54,13 @@ bL = graythresh(dBeta_b);
 % dAlpha_b = double(im2bw(dAlpha_b,aL));
 % dBeta_b = double(im2bw(dBeta_b,bL));
 
+<<<<<<< HEAD
 dAlpha_b = double(im2bw(dAlpha_b,0.95));
 dBeta_b = double(im2bw(dBeta_b,0.95));
+=======
+dAlpha_b = double(im2bw(dAlpha_b,0.9));
+dBeta_b = double(im2bw(dBeta_b,0.9));
+>>>>>>> origin
 
 
  end

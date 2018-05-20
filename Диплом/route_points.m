@@ -7,6 +7,9 @@ global Mdx
 %делаем структуру для точек
 AxPoints = zeros(2,2,length(Bx));
 
+%figure();
+%imagesc(flip(dXb,1));
+%hold on    
 for k=1:length(Bx)
     boundary = Bx{k};
     hold on
@@ -15,8 +18,8 @@ for k=1:length(Bx)
     catch err
        continue;
     end
-    %plotellipse(z, a, b, alpha);
     
+    %plotellipse(z, a, b, alpha);
     %рисуем точку центра эллипса
     %plot(z(2)*Mdx/1000,z(1)*Mdx/1000, 'r.');
     
@@ -51,7 +54,7 @@ for i = 1:length(Bx)
     X = [X [temp1; temp2]];
 end
 %проверяем, что точки маршрута лежат в области карты
-X = check_bounds(X,min(size(dXb)));
+X = check_bounds(X,min(size(dXb)),1);
 
 %figure()
 %hold on
