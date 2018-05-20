@@ -7,9 +7,9 @@
 % 6) -> считаю точность оценивания для точек маршрута
 % 7) рассчитать наибольшую P.
 
-clear
+clear; close all;
 %M = peaks(200);
-load 'fields/Field 8.mat';
+load 'fields/Field 5.mat';
 %M=M.*10;
 global Mdx Mdy
 Mdx = 200; %шаг сетки (м)
@@ -75,6 +75,7 @@ P_x = [1000000 0; 0 1000000];
  P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
  
  plot_everything
+ 
  %  subplot(2,1,1)
 %  hold on
 %  plot(sqrt(squeeze(P_unc_xy(1,1,:))));

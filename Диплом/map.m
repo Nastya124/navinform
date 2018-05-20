@@ -21,15 +21,19 @@ xL = graythresh(dXb);
 yL = graythresh(dYb);
 
 %бинаризуем с найденными порогами
-dXb = double(im2bw(dXb,xL));
-dYb = double(im2bw(dYb,yL));
+% dXb = double(im2bw(dXb,xL));
+% dYb = double(im2bw(dYb,yL));
+
+dXb = double(im2bw(dXb,0.95));
+dYb = double(im2bw(dYb,0.95));
 %   figure()
 %   imagesc(flip(dYb ,1));
 
 %делаем все то же самое дл€ направлений alpha и beta
-%alpha = 120*pi/180;
-%beta = 35*pi/180;
-[alpha,beta] = get_directions(dX,dY);
+% alpha = 124*pi/180;
+% beta = 152*pi/180;
+[alpha, beta] = get_directions2(dX,dY);
+% beta = mod(alpha+pi/2,pi);
 fprintf('Ќаправлени€: альфа %.2f, бета %.2f, дельта %.2f \n',alpha*180/pi, beta*180/pi, abs(alpha-beta)*180/pi);
 dAlpha = dX*cos(alpha)+dY*sin(alpha);
 dBeta = dX*cos(beta)+dY*sin(beta);
@@ -46,11 +50,11 @@ aL = graythresh(dAlpha_b);
 bL = graythresh(dBeta_b);
 
 %бинаризуем с найденными порогами
-dAlpha_b = double(im2bw(dAlpha_b,aL));
-dBeta_b = double(im2bw(dBeta_b,bL));
+% dAlpha_b = double(im2bw(dAlpha_b,aL));
+% dBeta_b = double(im2bw(dBeta_b,bL));
 
-% dAlpha_b = double(im2bw(dAlpha_b,0.90));
-% dBeta_b = double(im2bw(dBeta_b,0.90));
+dAlpha_b = double(im2bw(dAlpha_b,0.95));
+dBeta_b = double(im2bw(dBeta_b,0.95));
 
 
  end

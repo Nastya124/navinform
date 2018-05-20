@@ -1,4 +1,4 @@
-close all
+
 
 figure(1)
 subplot(1,2,1)
@@ -66,8 +66,10 @@ title('Области по направлению beta');
 
 figure(8);
 hold on
+% t2 = sqrt(squeeze(P_unc_ab(1,1,:)+P_unc_ab(2,2,:)));
 plot(sqrt(squeeze(P_unc_xy(1,1,:)+P_unc_xy(2,2,:))));
 plot(sqrt(squeeze(P_unc_ab(1,1,:)+P_unc_ab(2,2,:))));
+% plot(t2(2:end));
 legend('Pxy_u', 'Pab_u');
 title('ПДТО радиальной погрешности по направлениям XY и alpha-beta');
 xlabel('Количество измерений')
