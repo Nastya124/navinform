@@ -9,7 +9,7 @@
 
 
 
- close all
+clear;
 load 'fields/Field 3.mat';
 
 %M=M.*10;

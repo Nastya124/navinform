@@ -54,13 +54,10 @@ bL = graythresh(dBeta_b);
 % dAlpha_b = double(im2bw(dAlpha_b,aL));
 % dBeta_b = double(im2bw(dBeta_b,bL));
 
-<<<<<<< HEAD
+
 dAlpha_b = double(im2bw(dAlpha_b,0.95));
 dBeta_b = double(im2bw(dBeta_b,0.95));
-=======
-dAlpha_b = double(im2bw(dAlpha_b,0.9));
-dBeta_b = double(im2bw(dBeta_b,0.9));
->>>>>>> origin
+
 
 
  end
