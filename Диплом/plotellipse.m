@@ -84,7 +84,7 @@ X = Q * [a * cos(t); b * sin(t)] + repmat(z, 1, npts);
 
 % The actual plotting one-liner
 
-h = plot(hAx, X(2,:), 151-X(1,:), linespec);%!!!!!!!! здесь исправлено!!!!
+h = plot(hAx, X(2,:), 151-X(1,:), 'r', 'LineWidth' ,2);%!!!!!!!! здесь исправлено!!!!
 %set(gca,'ydir','reverse');
 % Return the handle if asked for
 if nargout == 1

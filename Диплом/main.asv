@@ -7,15 +7,14 @@
 % 6) -> считаю точность оценивания для точек маршрута
 % 7) рассчитать наибольшую P.
 
-% close all
 clear
 %M = peaks(200);
-load 'fields/Field 3.mat';
+load 'fields/Field 10.mat';
 %M=M.*10;
 global Mdx Mdy
 Mdx = 200; %шаг сетки (м)
 Mdy = 200; %шаг сетки (м)
-[X,Y] = meshgrid(1:Mdx/1000:31, 1:Mdy/1000:31);
+%[X,Y] = meshgrid(1:Mdx/1000:31, 1:Mdy/1000:31);
 M = interp2(M,X,Y,'spline');
 
 %задаем параметры шума датчика и оцениваемого вектора
@@ -75,16 +74,8 @@ P_x = [1000000 0; 0 1000000];
  P_unc_xy = unconditional_cov_matrix(route_points_xy, dX, dY, P_x, r);
  P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
  
-  figure(8);
-%   subplot(2,1,1)
- hold on
- plot(sqrt(squeeze(P_unc_xy(1,1,:)+P_unc_xy(2,2,:))));
- plot(sqrt(squeeze(P_unc_ab(1,1,:)+P_unc_ab(2,2,:))));
- legend('Pxy_u', 'Pab_u');
- title('ПДТО радиальной погрешности по направлениям XY и alpha-beta');
- xlabel('Количество измерений')
- ylabel('СКО, м')
-%  subplot(2,1,1)
+ plot_everything
+ %  subplot(2,1,1)
 %  hold on
 %  plot(sqrt(squeeze(P_unc_xy(1,1,:))));
 %  plot(sqrt(squeeze(P_unc_ab(1,1,:))));

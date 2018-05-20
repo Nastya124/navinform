@@ -8,14 +8,6 @@ global Mdx Mdy
 %нормируем, чтобы было в пределах единицы
 % dXb = abs(dX)./max(max(abs(dX)));
 % dYb = abs(dY)./max(max(abs(dY)));
-ang = atan2(dY, dX);
-ang2 = mod(ang,pi)*180/pi;
-mod2 = sqrt(dX.^2+dY.^2);
-figure
-hist(reshape(ang2.',1,[]),180);
-figure
-ndhist(reshape(ang2.',1,[]),reshape(mod2.',1,[]),'3d');
-
 
 dXb = dX.^2;
 dYb = dY.^2;
@@ -29,15 +21,19 @@ xL = graythresh(dXb);
 yL = graythresh(dYb);
 
 %бинаризуем с найденными порогами
-dXb = double(im2bw(dXb,xL));
-dYb = double(im2bw(dYb,yL));
+% dXb = double(im2bw(dXb,xL));
+% dYb = double(im2bw(dYb,yL));
+
+dXb = double(im2bw(dXb,0.95));
+dYb = double(im2bw(dYb,0.95));
 %   figure()
 %   imagesc(flip(dYb ,1));
 
 %делаем все то же самое дл€ направлений alpha и beta
-alpha = 122*pi/180;
-beta = 151*pi/180;
-
+alpha = 45*pi/180;
+beta = 135*pi/180;
+[beta, alpha] = get_directions(dX,dY);
+fprintf('Ќаправлени€: альфа %.2f, бета %.2f, дельта %.2f \n',alpha*180/pi, beta*180/pi, abs(alpha-beta)*180/pi);
 dAlpha = dX*cos(alpha)+dY*sin(alpha);
 dBeta = dX*cos(beta)+dY*sin(beta);
 
@@ -56,8 +52,8 @@ bL = graythresh(dBeta_b);
 % dAlpha_b = double(im2bw(dAlpha_b,aL));
 % dBeta_b = double(im2bw(dBeta_b,bL));
 
-dAlpha_b = double(im2bw(dAlpha_b,0.95));
-dBeta_b = double(im2bw(dBeta_b,0.95));
+dAlpha_b = double(im2bw(dAlpha_b,0.99));
+dBeta_b = double(im2bw(dBeta_b,0.99));
 
 
  end

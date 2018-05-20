@@ -1,4 +1,4 @@
- function [dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b] = map(M)
+ function [dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b,alpha,beta] = map(M)
 global Mdx Mdy
 %«десь dX,dY - матрицы производных, dXb,dYb - матрицы нацденных областей с
 %высоким градиентом дл€ двух координат соответственно
@@ -21,14 +21,17 @@ xL = graythresh(dXb);
 yL = graythresh(dYb);
 
 %бинаризуем с найденными порогами
-dXb = double(im2bw(dXb,xL));
-dYb = double(im2bw(dYb,yL));
+% dXb = double(im2bw(dXb,xL));
+% dYb = double(im2bw(dYb,yL));
+
+dXb = double(im2bw(dXb,0.90));
+dYb = double(im2bw(dYb,0.90));
 %   figure()
 %   imagesc(flip(dYb ,1));
 
 %делаем все то же самое дл€ направлений alpha и beta
-%alpha = 120*pi/180;
-%beta = 35*pi/180;
+alpha = 45*pi/180;
+beta = 117*pi/180;
 [alpha,beta] = get_directions(dX,dY);
 fprintf('Ќаправлени€: альфа %.2f, бета %.2f, дельта %.2f \n',alpha*180/pi, beta*180/pi, abs(alpha-beta)*180/pi);
 dAlpha = dX*cos(alpha)+dY*sin(alpha);
@@ -46,11 +49,11 @@ aL = graythresh(dAlpha_b);
 bL = graythresh(dBeta_b);
 
 %бинаризуем с найденными порогами
-dAlpha_b = double(im2bw(dAlpha_b,aL));
-dBeta_b = double(im2bw(dBeta_b,bL));
+% dAlpha_b = double(im2bw(dAlpha_b,aL));
+% dBeta_b = double(im2bw(dBeta_b,bL));
 
-% dAlpha_b = double(im2bw(dAlpha_b,0.90));
-% dBeta_b = double(im2bw(dBeta_b,0.90));
+dAlpha_b = double(im2bw(dAlpha_b,0.9));
+dBeta_b = double(im2bw(dBeta_b,0.9));
 
 
  end
