@@ -7,10 +7,10 @@
 % 6) -> считаю точность оценивания для точек маршрута
 % 7) рассчитать наибольшую P.
 
-
+%12, 15 поле хорошее
 
 clear;
-load 'fields/Field 3.mat';
+load 'fields/Field 12.mat';
 
 %M=M.*10;
 global Mdx Mdy
@@ -77,7 +77,7 @@ P_x = [1000000 0; 0 1000000];
  P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
  
 
- %plot_everything
+ plot_everything
 
  
  %  subplot(2,1,1)
