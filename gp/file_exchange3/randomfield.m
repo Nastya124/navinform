@@ -378,6 +378,7 @@ ev=abs(diag(S));
 U=U(:,indz);
 
 % generate the samples
+
 W=randn(trunc,nsamples);
 F=(U*diag(sqrt(ev)))*W+repmat(mu,1,nsamples);
 

@@ -124,7 +124,7 @@ else
             if isscalar(c0), c0=c0*ones(size(mesh1,2),1); end
             c0=-0.5./c0; c0=c0(:);
             C=zeros(m,n);
-            parfor i=1:n
+            for i=1:n
                 point=mesh2(i,:);
                 X=(mesh1-repmat(point,m,1)).^2;
                 C(:,i)=sigma.*exp(X*c0);

@@ -16,7 +16,7 @@ load 'fields/Field 12.mat';
 global Mdx Mdy
 Mdx = 200; %шаг сетки (м)
 Mdy = 200; %шаг сетки (м)
-[X,Y] = meshgrid(0:Mdx/1000:30, 0:Mdy/1000:30);
+[X,Y] = meshgrid(1:Mdx/1000:30, 1:Mdy/1000:30);
 M = interp2(M,X,Y,'spline');
 
 %задаем параметры шума датчика и оцениваемого вектора

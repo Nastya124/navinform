@@ -2,7 +2,7 @@ function P = unconditional_cov_matrix(X, dX,dY, P_x,r)
 %здесь Х - матрица точек маршрута, dX, dY - матрицы производных поля
 
 %задаем число итераций для рассчета безусловной матрицы ковариаций
-n_iter = 10;
+n_iter = 1;
 
 mnt_num = max(size(X));
 P = zeros(2,2,mnt_num+1);

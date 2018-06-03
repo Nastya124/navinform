@@ -85,7 +85,7 @@ contour(X,Y,M,15)
 title('Поле в изолиниях с маршрутом XY');
 axis equal
 hold on
-plot(route_points_xy(1,:)*Mdx/1000,route_points_xy(2,:)*Mdy/1000,'r.')
+plot(route_points_xy(1,:)*Mdx/1000+1,route_points_xy(2,:)*Mdy/1000+1,'r.')
 %plot(route_points_y(1,:)*Mdx/1000,route_points_y(2,:)*Mdy/1000,'r.')
 
 subplot(1,2,2)
@@ -93,7 +93,7 @@ contour(X,Y,M,15)
 title('Поле в изолиниях с маршрутом alpha-beta');
 axis equal
 hold on
-plot(route_points_ab(1,:)*Mdx/1000,route_points_ab(2,:)*Mdy/1000,'r.')
+plot(route_points_ab(1,:)*Mdx/1000+1,route_points_ab(2,:)*Mdy/1000+1,'r.')
 %plot(route_points_b(1,:)*Mdx/1000,route_points_b(2,:)*Mdy/1000,'r.')
 
 

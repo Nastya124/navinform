@@ -25,8 +25,8 @@ yL = graythresh(dYb);
 % dYb = double(im2bw(dYb,yL));
 
 
-dXb = double(im2bw(dXb,0.95));
-dYb = double(im2bw(dYb,0.95));
+dXb = double(im2bw(dXb,0.90));
+dYb = double(im2bw(dYb,0.90));
 
 %   figure()
 %   imagesc(flip(dYb ,1));
@@ -55,8 +55,8 @@ bL = graythresh(dBeta_b);
 % dBeta_b = double(im2bw(dBeta_b,bL));
 
 
-dAlpha_b = double(im2bw(dAlpha_b,0.95));
-dBeta_b = double(im2bw(dBeta_b,0.95));
+dAlpha_b = double(im2bw(dAlpha_b,0.90));
+dBeta_b = double(im2bw(dBeta_b,0.90));
 
 
 

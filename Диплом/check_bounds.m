@@ -6,15 +6,24 @@ if index == 2
 else
     L = length(X);
     k=0;
+    try
     for i = 1:L
         i=i-k;
+        
         if ((X(1,i)<=1)||(X(2,i)<=1)||(X(1,i)> map_size)||(X(2,i) > map_size))
-            X(:,i)=[];
-            L = L-1;
-            k=k+1;
+                X(:,i)=[];
+                L = L-1;
+                k=k+1;
+        
+              
         end
-        X_checked = X;
+        
     end
+    catch ME
+            disp('err');
+            rethrow(ME)
+   end
+    X_checked = X;
 end
 
 end
