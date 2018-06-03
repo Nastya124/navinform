@@ -9,90 +9,111 @@
 
 %12, 15 поле хорошее
 
-clear;
-load 'fields/Field 12.mat';
+clear; close all;
+load 'fields/Field 2.mat';
 
-%M=M.*10;
-global Mdx Mdy
-Mdx = 200; %шаг сетки (м)
-Mdy = 200; %шаг сетки (м)
-[X,Y] = meshgrid(1:Mdx/1000:30, 1:Mdy/1000:30);
-M = interp2(M,X,Y,'spline');
+%Настройки
+STN.Map_Xsize = 29000;
+STN.Map_Ysize = 29000;
 
-%задаем параметры шума датчика и оцениваемого вектора
-r = 1;
-P_x = [1000000 0; 0 1000000];
+%исходная сетка
+STN.Mdx_i = 1000; %шаг сетки (м)
+STN.Mdy_i = 1000;
+
+%сетка для интерполяции
+STN.Mdx = 200; %шаг сетки (м)
+STN.Mdy = 200;
+
+STN.r = 1; % CКО измерителя
+STN.r_x1 = 1000; %начальные СКО координат (м)
+STN.r_x2 = 1000;
+STN.P_0 = [STN.r_x1^2 0; 0 STN.r_x2^2]; %начальная матрица ковариаций
+
+STN.BIN_TYPE = 'Thresh'; %'Otsu', 'Thresh'
+STN.BIN_THRESH_A = 0.90;
+STN.BIN_THRESH_B = 0.90;
+
+STN.mn_num = 'A'; %'A';
+
+% 1 - максимум градиента и ортогональное ему направление
+% 2 - максимум функционала (среднее суммы квадратов максимумов)
+% 3 - преобладающие направления градиента на поле, через разложение ковариационной матрицы
+% 4 - фиксированный 0,pi/2
+STN.AB_METHOD = 2;
+
+%%
 
 %получаем матрицы производных по направлениям и бинаризованные карты для
 %каждой из координат
-[dX,dY,dXb,dYb,dAlpha,dAlpha_b,dBeta,dBeta_b,alpha,beta] = map(M);
+MAP_data = inf_map(M,STN);
+figure(1)
+contour(MAP_data.X_grid,MAP_data.Y_grid,MAP_data.M,15)
+hold on
+[xi,yi] = getpts;
 %**************************************************
-%!!!!!!Это ТОЛЬКО направления X и Y!!!!!!!!!!!!!!!!
+
+
 %получаем точки маршрута
- route_points_x = route_points(dXb);
- route_points_y = route_points(dYb);
- 
-%вычисляем точность оценивания для каждой из координат
-% P_unc_x = unconditional_cov_matrix(route_points_x, dX, dY, P_x, r);
-% P_unc_y = unconditional_cov_matrix(route_points_y, dX, dY, P_x, r);
+AxPoints_a = ell_points(MAP_data.Alpha_nav_b,STN);
+AxPoints_b = ell_points(MAP_data.Beta_nav_b,STN);
 
-%сравнение с точностью на "экспертном" маршруте
-%route_points_exp(1,:) = linspace(20,25,max(size(route_points_x)));
-%route_points_exp(2,:) = linspace(3,48,max(size(route_points_x)));
-%P_exp = conditional_cov_matrix(route_points_exp, dX, dY, P_x, r);
+route_a = route_points(AxPoints_a, STN);
+route_b = route_points(AxPoints_b, STN);
 
-% figure();
-% subplot(2,1,1)
-% hold on
-% plot(sqrt(squeeze(P_unc_x(1,1,:))));
-% plot(sqrt(squeeze(P_unc_x(2,2,:))));
-% legend('Px_u', 'Py_u');
-% title('СКО ПДТО по областям для координаты Х');
-% xlabel('Количество измерений')
-% ylabel('СКО, м')
-% subplot(2,1,2)
-% hold on
-% plot(sqrt(squeeze(P_unc_y(1,1,:))));
-% plot(sqrt(squeeze(P_unc_y(2,2,:))));
-% legend('Px_u', 'Py_u');
-% title('СКО ПДТО по областям для координаты Y');
-% xlabel('Количество измерений')
-% ylabel('СКО, м')
-%%plot(sqrt(squeeze(P_exp(1,1,:))));
-%%plot(sqrt(squeeze(P_exp(2,2,:))));
-%%legend('Px', 'Py', 'P_exp_x', 'P_exp_y');
-%%title('СКО по областям для координаты Х');
-%**************************************************
+route_ab = make_route(route_a,route_b);
+P_cond_ab = conditional_cov_matrix(route_ab, MAP_data, STN);
 
- route_points_a = route_points(dAlpha_b);
- route_points_b = route_points(dBeta_b);
- 
- P_unc_a = unconditional_cov_matrix(route_points_a, dX, dY, P_x, r);
- P_unc_b = unconditional_cov_matrix(route_points_b, dX, dY, P_x, r);
- 
- route_points_xy = [route_points_x route_points_y];
- route_points_ab = [route_points_a route_points_b];
- 
- P_unc_xy = unconditional_cov_matrix(route_points_xy, dX, dY, P_x, r);
- P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
- 
 
- plot_everything
+STN.AB_METHOD = 4;
+MAP_data = inf_map(M,STN);
 
- 
- %  subplot(2,1,1)
-%  hold on
-%  plot(sqrt(squeeze(P_unc_xy(1,1,:))));
-%  plot(sqrt(squeeze(P_unc_ab(1,1,:))));
-%  legend('Pxy_u', 'Pab_u');
-%  title('ПДТО координаты X по направлениям XY и alpha-beta');
-%  xlabel('Количество измерений')
-%  ylabel('СКО, м')
-%  subplot(2,1,2)
-%  hold on
-%  plot(sqrt(squeeze(P_unc_xy(2,2,:))));
-%  plot(sqrt(squeeze(P_unc_ab(2,2,:))));
-%  legend('Pxy_u', 'Pab_u');
-%  title('ПДТО координаты Y по направлениям XY и alpha-beta');
-%  xlabel('Количество измерений')
-%  ylabel('СКО, м')
+%получаем точки маршрута
+AxPoints_x = [xi(1) yi(1);xi(2) yi(2)];
+%AxPoints_y = [xi(3) yi(3);xi(4) yi(4)];
+
+route_x = route_points(AxPoints_x, STN);
+%route_y = route_points(AxPoints_y, STN);
+
+%route_xy = make_route(route_x,route_y);
+P_cond_xy = conditional_cov_matrix(route_x, MAP_data, STN);
+
+%% testing
+
+hold on
+pts_a = vertcat(route_a.pts{:});
+pts_b = vertcat(route_b.pts{:});
+
+pts_x = vertcat(route_x.pts{:});
+%pts_y = vertcat(route_y.pts{:});
+
+plot(pts_a(:,1),pts_a(:,2),'r.')
+plot(pts_b(:,1),pts_b(:,2),'r.')
+
+plot(pts_x(:,1),pts_x(:,2),'b.')
+%plot(pts_y(:,1),pts_y(:,2),'b.')
+
+title('Поле в изолиниях');
+xlabel('Ox')
+ylabel('Oy')
+
+
+
+figure(2)
+hold on
+plot(sqrt(squeeze(P_cond_ab(1,1,:)+P_cond_ab(2,2,:))));
+plot(sqrt(squeeze(P_cond_xy(1,1,:)+P_cond_xy(2,2,:))));
+legend('СКО AB', 'СКО Экспертное')
+
+return
+%%
+P_unc_a = unconditional_cov_matrix(route_a, dX, dY, P_x, r);
+P_unc_b = unconditional_cov_matrix(pts_b, dX, dY, P_x, r);
+
+route_points_xy = [route_points_x route_points_y];
+route_points_ab = [route_points_a route_points_b];
+
+P_unc_xy = unconditional_cov_matrix(route_points_xy, dX, dY, P_x, r);
+P_unc_ab = unconditional_cov_matrix(route_points_ab, dX, dY, P_x, r);
+
+
+plot_everything
